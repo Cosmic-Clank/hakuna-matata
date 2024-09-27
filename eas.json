@@ -31,6 +31,9 @@
 			},
 			"ios": {
 				"image": "latest"
+			},
+			"env": {
+				"EXPO_PUBLIC_BACKEND_BASEURL": "https://khz6n3f6-8000.inc1.devtunnels.ms/"
 			}
 		},
 		"production": {
