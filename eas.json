@@ -1,47 +1,53 @@
 {
-  "cli": {
-    "version": ">= 12.4.1",
-    "appVersionSource": "remote"
-  },
-  "build": {
-    "development": {
-      "developmentClient": true,
-      "distribution": "internal",
-      "android": {
-        "image": "latest"
-      },
-      "ios": {
-        "image": "latest"
-      }
-    },
-    "development-simulator": {
-      "extends": "development",
-      "ios": {
-        "simulator": true
-      }
-    },
-    "preview": {
-      "distribution": "internal",
-      "channel": "main",
-      "android": {
-        "image": "latest"
-      },
-      "ios": {
-        "image": "latest"
-      }
-    },
-    "production": {
-      "channel": "production",
-      "autoIncrement": true,
-      "android": {
-        "image": "latest"
-      },
-      "ios": {
-        "image": "latest"
-      }
-    }
-  },
-  "submit": {
-    "production": {}
-  }
+	"cli": {
+		"version": ">= 12.4.1",
+		"appVersionSource": "remote"
+	},
+	"build": {
+		"development": {
+			"developmentClient": true,
+			"distribution": "internal",
+			"android": {
+				"image": "latest"
+			},
+			"ios": {
+				"image": "latest"
+			},
+			"env": {
+				"EXPO_PUBLIC_BACKEND_BASEURL": "https://khz6n3f6-8000.inc1.devtunnels.ms/"
+			}
+		},
+		"development-simulator": {
+			"extends": "development",
+			"ios": {
+				"simulator": true
+			}
+		},
+		"preview": {
+			"distribution": "internal",
+			"channel": "main",
+			"android": {
+				"image": "latest"
+			},
+			"ios": {
+				"image": "latest"
+			}
+		},
+		"production": {
+			"channel": "production",
+			"autoIncrement": true,
+			"android": {
+				"image": "latest"
+			},
+			"ios": {
+				"image": "latest"
+			},
+			"env": {
+				"EXPO_PUBLIC_BACKEND_BASEURL": "https://khz6n3f6-8000.inc1.devtunnels.ms/"
+			}
+		}
+	},
+	"submit": {
+		"production": {}
+	}
 }
