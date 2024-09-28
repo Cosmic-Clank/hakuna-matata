@@ -1,6 +1,6 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import React, { useState } from "react";
-import { Button, TextInput, HelperText, Checkbox, ActivityIndicator } from "react-native-paper";
+import { Button, Text, TextInput, HelperText, Checkbox, ActivityIndicator } from "react-native-paper";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { en, registerTranslation, DatePickerInput } from "react-native-paper-dates";
 import SelectDropdown from "@/components/SelectDropdown";
@@ -81,6 +81,8 @@ const Register = () => {
 
 	return (
 		<ThemedScrollContainer>
+			<Text style={styles.title}>Register</Text>
+
 			{/* First Name Field */}
 			<Controller
 				name='fname'
@@ -129,13 +131,13 @@ const Register = () => {
 			/>
 			{errors.mobileNumber && <HelperText type='error'>{errors.mobileNumber.message}</HelperText>}
 
-			{/* International Code Field */}
-			<Controller name='internationalCode' control={control} render={({ field: { onChange, value } }) => <SelectDropdown label='Country Code' options={INTERNATIONAL_CODES} value={value} onSelection={onChange} />} rules={{ required: { value: true, message: ERROR_MESSAGES.REQUIRED } }} />
-			{errors.internationalCode && <HelperText type='error'>{errors.internationalCode.message}</HelperText>}
-
 			{/* Birthdate Field */}
 			<Controller name='birthdate' control={control} render={({ field: { onChange, onBlur, value } }) => <DatePickerInput locale='en' label='Birth Date' value={value} onBlur={onBlur} error={!!errors.birthdate} onChange={onChange} inputMode='start' mode='outlined' style={styles.input} />} rules={{ required: { value: true, message: ERROR_MESSAGES.REQUIRED } }} />
 			{errors.birthdate && <HelperText type='error'>{errors.birthdate.message}</HelperText>}
+
+			{/* International Code Field */}
+			<Controller name='internationalCode' control={control} render={({ field: { onChange, value } }) => <SelectDropdown label='Country Code' options={INTERNATIONAL_CODES} value={value} onSelection={onChange} />} rules={{ required: { value: true, message: ERROR_MESSAGES.REQUIRED } }} />
+			{errors.internationalCode && <HelperText type='error'>{errors.internationalCode.message}</HelperText>}
 
 			{/* Gender Field */}
 			<Controller name='gender' control={control} render={({ field: { onChange, value } }) => <SelectDropdown label='Gender' options={GENDERS} value={value} onSelection={onChange} />} rules={{ required: { value: true, message: ERROR_MESSAGES.REQUIRED } }} />

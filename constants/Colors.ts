@@ -50,7 +50,7 @@ export const Colors = {
 				level2: "rgb(247, 236, 235)", // Slightly deeper shadow
 				level3: "#FFF2E5", // Moderate shadow
 				level4: "rgb(244, 229, 224)", // Deeper shadow
-				level5: "rgb(242, 225, 219)", // Strongest shadow
+				level5: "#a2958f", // Strongest shadow
 			},
 
 			surfaceDisabled: "rgba(32, 26, 24, 0.12)", // Disabled surface background
@@ -107,7 +107,7 @@ export const Colors = {
 				level2: "rgb(44, 40, 48)", // Deeper shadow
 				level3: "rgb(50, 44, 55)", // Moderate shadow
 				level4: "rgb(52, 46, 57)", // Even deeper shadow
-				level5: "rgb(56, 49, 62)", // Deepest shadow
+				level5: "rgb(82,82,82)", // Deepest shadow
 			},
 
 			surfaceDisabled: "rgba(255, 255, 255, 0.12)", // Disabled surface in dark mode

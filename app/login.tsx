@@ -1,13 +1,12 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import React, { useState } from "react";
-import { Button, TextInput, HelperText, useTheme, ActivityIndicator } from "react-native-paper";
+import { Text, TextInput, HelperText, ActivityIndicator } from "react-native-paper";
 import { useForm, Controller, SubmitHandler, set } from "react-hook-form";
 import { useSession } from "@/context/AuthContext";
 import { loginUser } from "@/api/backend";
 import { useSnackbar } from "@/context/SnackbarContext"; // Import SnackbarContext for global snackbar
 import { router } from "expo-router";
 import CustomButton from "@/components/CustomButton";
-import ThemedContainer from "@/components/ThemedContainer";
 import ThemedScrollContainer from "@/components/ThemedScrollContainer";
 
 type FormData = {
@@ -96,14 +95,12 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		padding: 20,
-		backgroundColor: "#fff",
 		justifyContent: "center",
 	},
 	title: {
 		fontSize: 24,
 		fontWeight: "bold",
 		marginBottom: 20,
-		color: "#333",
 	},
 	inputContainer: {
 		marginBottom: 20,

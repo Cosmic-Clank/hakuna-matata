@@ -1,23 +1,25 @@
-import { StyleSheet, Text, View, ActivityIndicator, TouchableOpacity, Image } from "react-native";
+import { StyleSheet, View, ActivityIndicator, TouchableOpacity, Image } from "react-native";
 import React from "react";
-import { Divider, Button } from "react-native-paper";
+import { Divider } from "react-native-paper";
 import { router, Redirect } from "expo-router";
-import { healthCheck } from "@/api/backend";
 import { useSession } from "@/context/AuthContext";
 import { useSnackbar } from "@/context/SnackbarContext";
 import { useTheme } from "react-native-paper";
 import CustomButton from "@/components/CustomButton";
+import ThemedContainer from "@/components/ThemedContainer";
+import { useThemeContext } from "@/context/ThemeContext";
+import ThemedScrollContainer from "@/components/ThemedScrollContainer";
 
 const Authentication = () => {
 	const { session, isLoading } = useSession();
-	const { showSnackbar } = useSnackbar(); // Snackbar for messages
 	const theme = useTheme(); // Access theme colors
+	const { isDarkTheme } = useThemeContext();
 
 	if (isLoading) {
 		return (
-			<View style={styles.loadingContainer}>
-				<ActivityIndicator size='large' color={theme.colors.primary} />
-			</View>
+			<ThemedScrollContainer style={styles.loadingContainer}>
+				<ActivityIndicator animating={true} size='large' color={theme.colors.primary} />
+			</ThemedScrollContainer>
 		);
 	}
 
@@ -26,9 +28,9 @@ const Authentication = () => {
 	}
 
 	return (
-		<View style={styles.container}>
+		<ThemedContainer style={styles.container}>
 			{/* App Logo */}
-			<Image source={require("../assets/images/logo-sticker.png")} style={styles.logo} />
+			{isDarkTheme ? <Image source={require("../assets/images/logo-white.png")} style={styles.logo} /> : <Image source={require("../assets/images/logo-sticker.png")} style={styles.logo} />}
 
 			{/* Log In Button */}
 			<CustomButton text='Log In' onPress={() => router.push("/login")} />
@@ -54,7 +56,7 @@ const Authentication = () => {
 				}}>
 				<Text style={styles.buttonText}>Check Backend</Text>
 			</TouchableOpacity> */}
-		</View>
+		</ThemedContainer>
 	);
 };
 
@@ -66,12 +68,9 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		alignItems: "center",
 		padding: 20,
-		backgroundColor: "#FFF", // White background
 	},
 	loadingContainer: {
 		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
 	},
 	logo: {
 		width: 150, // Set the width of your logo

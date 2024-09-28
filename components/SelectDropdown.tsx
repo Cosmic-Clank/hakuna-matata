@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import { PaperSelect } from "react-native-paper-select";
+import { useTheme } from "react-native-paper";
 
 const Dropdown = ({ label, onSelection, options, multiEnable = false, value, mode = "outlined" }: { label: string; onSelection: (value: string) => void; options: Array<{ _id: string; value: string }>; multiEnable?: boolean; value: any; mode?: "flat" | "outlined" | undefined }) => {
 	const [item, setItem] = useState({
@@ -8,6 +9,8 @@ const Dropdown = ({ label, onSelection, options, multiEnable = false, value, mod
 		list: options,
 		selectedList: [],
 	});
+
+	const theme = useTheme();
 
 	return (
 		<PaperSelect
@@ -26,6 +29,8 @@ const Dropdown = ({ label, onSelection, options, multiEnable = false, value, mod
 			}}
 			multiEnable={multiEnable}
 			textInputMode={mode}
+			searchStyle={{ backgroundColor: theme.colors.surface }}
+			textInputOutlineStyle={{ borderColor: theme.colors.elevation.level5 }}
 		/>
 	);
 };
