@@ -25,6 +25,7 @@ type FormData = {
 
 export const registerUser = async (data: FormData) => {
 	try {
+		console.log("Registering using", data);
 		const response = await axiosInstance.post("/register", data);
 		return response.data;
 	} catch (error) {
@@ -35,7 +36,7 @@ export const registerUser = async (data: FormData) => {
 
 export const loginUser = async (data: { email: string; mobileNumber: string }) => {
 	try {
-		console.log(data);
+		console.log("Logging in using", data);
 		const response = await axiosInstance.post("/login", data);
 		return response.data;
 	} catch (error) {

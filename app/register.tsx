@@ -1,6 +1,6 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
-import { Button, TextInput, HelperText, Checkbox } from "react-native-paper";
+import { Button, TextInput, HelperText, Checkbox, ActivityIndicator } from "react-native-paper";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { en, registerTranslation, DatePickerInput } from "react-native-paper-dates";
 import SelectDropdown from "@/components/SelectDropdown";
@@ -10,6 +10,7 @@ import { router } from "expo-router";
 import { useSnackbar } from "@/context/SnackbarContext";
 import allergies from "@/data/allergies.json";
 import nationalities from "@/data/nationalities.json";
+import countryCodes from "@/data/countryCodes.json";
 import CustomButton from "@/components/CustomButton";
 import ThemedScrollContainer from "@/components/ThemedScrollContainer";
 registerTranslation("en", en);
@@ -50,8 +51,11 @@ const NATIONALITIES = nationalities;
 
 const ALLERGIES = allergies;
 
+const INTERNATIONAL_CODES = countryCodes;
+
 const Register = () => {
 	const { showSnackbar } = useSnackbar();
+	const [isLoading, setIsLoading] = useState(false);
 
 	const {
 		control,
@@ -60,13 +64,18 @@ const Register = () => {
 	} = useForm<FormData>();
 
 	const onSubmit: SubmitHandler<FormData> = async (data) => {
-		console.log(data);
+		setIsLoading(true);
 		const response = await registerUser(data);
 		if (response.statusCode === 201) {
+			setIsLoading(false);
 			showSnackbar("Registration Successful");
 			setTimeout(() => router.replace("/login"), 1000);
+		} else if (response.statusCode === 209) {
+			showSnackbar("User already exists!");
+			setIsLoading(false);
 		} else {
-			showSnackbar("Network Error");
+			showSnackbar("Network Error, please connect to the internet!");
+			setIsLoading(false);
 		}
 	};
 
@@ -121,14 +130,7 @@ const Register = () => {
 			{errors.mobileNumber && <HelperText type='error'>{errors.mobileNumber.message}</HelperText>}
 
 			{/* International Code Field */}
-			<Controller
-				name='internationalCode'
-				control={control}
-				render={({ field: { onChange, onBlur, value } }) => <TextInput label='International Code' mode='outlined' onBlur={onBlur} onChangeText={onChange} value={value} error={!!errors.internationalCode} style={styles.input} left={<TextInput.Icon icon='earth' />} />}
-				rules={{
-					required: { value: true, message: ERROR_MESSAGES.REQUIRED },
-				}}
-			/>
+			<Controller name='internationalCode' control={control} render={({ field: { onChange, value } }) => <SelectDropdown label='Country Code' options={INTERNATIONAL_CODES} value={value} onSelection={onChange} />} rules={{ required: { value: true, message: ERROR_MESSAGES.REQUIRED } }} />
 			{errors.internationalCode && <HelperText type='error'>{errors.internationalCode.message}</HelperText>}
 
 			{/* Birthdate Field */}
@@ -160,6 +162,7 @@ const Register = () => {
 			{errors.terms && <HelperText type='error'>{errors.terms.message}</HelperText>}
 
 			<CustomButton text='Register' onPress={handleSubmit(onSubmit)} style={{ width: "100%" }} />
+			<ActivityIndicator animating={isLoading} hidesWhenStopped />
 		</ThemedScrollContainer>
 	);
 };

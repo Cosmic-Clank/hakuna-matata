@@ -1,7 +1,7 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
-import { Button, TextInput, HelperText, useTheme } from "react-native-paper";
-import { useForm, Controller, SubmitHandler } from "react-hook-form";
+import { Button, TextInput, HelperText, useTheme, ActivityIndicator } from "react-native-paper";
+import { useForm, Controller, SubmitHandler, set } from "react-hook-form";
 import { useSession } from "@/context/AuthContext";
 import { loginUser } from "@/api/backend";
 import { useSnackbar } from "@/context/SnackbarContext"; // Import SnackbarContext for global snackbar
@@ -29,7 +29,7 @@ const ERROR_MESSAGES = {
 const Login = () => {
 	const { signIn } = useSession();
 	const { showSnackbar } = useSnackbar(); // Use the snackbar from context
-	const theme = useTheme();
+	const [isLoading, setIsLoading] = useState(false);
 
 	const {
 		control,
@@ -38,18 +38,20 @@ const Login = () => {
 	} = useForm<FormData>();
 
 	const onSubmit: SubmitHandler<FormData> = async (data) => {
-		try {
-			const response = await loginUser(data);
-			if (response.statusCode !== 200) {
-				showSnackbar(response.message || "Login Failed"); // Show snackbar message
-				return;
-			} else {
-				signIn(response.data);
-				router.replace("/");
-			}
-		} catch (error) {
-			showSnackbar("Connect to the internet"); // Show snackbar for error
+		setIsLoading(true);
+		const response = await loginUser(data);
+		if (response.statusCode === 200) {
+			signIn(response.data);
+			setIsLoading(false);
+			router.replace("/");
+		} else if (response.statusCode === 401) {
+			showSnackbar("Invalid Credentials!"); // Show snackbar message
+		} else if (response.statusCode === 404) {
+			showSnackbar("User not found!"); // Show snackbar message
+		} else {
+			showSnackbar("Network Error, please connect to the internet!"); // Show snackbar message
 		}
+		setIsLoading(false);
 	};
 
 	return (
@@ -82,6 +84,7 @@ const Login = () => {
 				{errors.mobileNumber && <HelperText type='error'>{errors.mobileNumber.message}</HelperText>}
 
 				<CustomButton text='Login' onPress={handleSubmit(onSubmit)} style={{ width: "100%" }} />
+				<ActivityIndicator animating={isLoading} hidesWhenStopped />
 			</View>
 		</ThemedScrollContainer>
 	);

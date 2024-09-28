@@ -19,7 +19,7 @@ export default function App() {
 	);
 }
 
-function RootLayout() {
+export function RootLayout() {
 	const { theme } = useThemeContext();
 
 	const [fontsLoaded, fontsLoadedError] = useFonts({

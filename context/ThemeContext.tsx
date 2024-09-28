@@ -1,7 +1,7 @@
 import { MD3LightTheme, MD3DarkTheme, PaperProvider } from "react-native-paper";
-import React, { createContext, useState, useContext, ReactNode } from "react";
+import React, { createContext, useState, useContext, ReactNode, useEffect } from "react";
 import { Colors } from "@/constants/Colors";
-import { useColorScheme } from "react-native";
+import { useStorageState } from "@/hooks/UseStorageState"; // Assuming you have a hook to handle secure storage
 
 // Create a context
 const ThemeContext = createContext({
@@ -18,12 +18,27 @@ interface ThemeProviderProps {
 }
 
 export const ThemeProvider = ({ children }: ThemeProviderProps) => {
-	const [isDarkTheme, setIsDarkTheme] = useState(useColorScheme() === "dark");
+	const [[isLoading, colorScheme], setColorScheme] = useStorageState("theme"); // Default to light theme initially
+	const [isDarkTheme, setIsDarkTheme] = useState(false);
+
+	useEffect(() => {
+		// Initialize theme from storage
+		if (!isLoading) {
+			setIsDarkTheme(colorScheme === "dark");
+		}
+	}, [isLoading, colorScheme]);
 
 	// Toggle theme between light and dark
 	const toggleTheme = () => {
+		const newTheme = !isDarkTheme ? "dark" : "light";
 		setIsDarkTheme(!isDarkTheme);
+		setColorScheme(newTheme); // Persist new theme to storage
 	};
+
+	if (isLoading) {
+		// Optional loading indicator while loading from storage
+		return null;
+	}
 
 	return <ThemeContext.Provider value={{ isDarkTheme, toggleTheme, theme: isDarkTheme ? darkTheme : lightTheme }}>{children}</ThemeContext.Provider>;
 };
