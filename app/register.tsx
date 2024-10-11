@@ -5,7 +5,6 @@ import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { en, registerTranslation, DatePickerInput } from "react-native-paper-dates";
 import SelectDropdown from "@/components/SelectDropdown";
 import { registerUser } from "@/api/backend";
-import { useTheme } from "react-native-paper";
 import { router } from "expo-router";
 import { useSnackbar } from "@/context/SnackbarContext";
 import allergies from "@/data/allergies.json";
@@ -20,7 +19,7 @@ type FormData = {
 	lname: string;
 	email: string;
 	mobileNumber: string;
-	birthdate: Date;
+	birthDate: Date;
 	gender: string;
 	nationality: string;
 	internationalCode: string;
@@ -132,8 +131,8 @@ const Register = () => {
 			{errors.mobileNumber && <HelperText type='error'>{errors.mobileNumber.message}</HelperText>}
 
 			{/* Birthdate Field */}
-			<Controller name='birthdate' control={control} render={({ field: { onChange, onBlur, value } }) => <DatePickerInput locale='en' label='Birth Date' value={value} onBlur={onBlur} error={!!errors.birthdate} onChange={onChange} inputMode='start' mode='outlined' style={styles.input} />} rules={{ required: { value: true, message: ERROR_MESSAGES.REQUIRED } }} />
-			{errors.birthdate && <HelperText type='error'>{errors.birthdate.message}</HelperText>}
+			<Controller name='birthDate' control={control} render={({ field: { onChange, onBlur, value } }) => <DatePickerInput locale='en' label='Birth Date' value={value} onBlur={onBlur} error={!!errors.birthDate} onChange={onChange} inputMode='start' mode='outlined' style={styles.input} />} rules={{ required: { value: true, message: ERROR_MESSAGES.REQUIRED } }} />
+			{errors.birthDate && <HelperText type='error'>{errors.birthDate.message}</HelperText>}
 
 			{/* International Code Field */}
 			<Controller name='internationalCode' control={control} render={({ field: { onChange, value } }) => <SelectDropdown label='Country Code' options={INTERNATIONAL_CODES} value={value} onSelection={onChange} />} rules={{ required: { value: true, message: ERROR_MESSAGES.REQUIRED } }} />

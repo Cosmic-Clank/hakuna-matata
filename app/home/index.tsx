@@ -4,6 +4,7 @@ import { Text, useTheme, Searchbar } from "react-native-paper";
 import { useSnackbar } from "@/context/SnackbarContext"; // Import the showSnackbar function
 import ThemedScrollContainer from "@/components/ThemedScrollContainer";
 import SurfaceIcons from "@/components/SurfaceIcons";
+import SalesCounter from "@/components/SalesCounter";
 import Categories from "@/components/Categories";
 import Products from "@/components/Products";
 
@@ -27,20 +28,21 @@ export default function HomeScreen() {
 	return (
 		<ThemedScrollContainer contentContainerStyle={{ padding: "0" }}>
 			{/* Search Bar */}
-			<View style={styles.searchBarContainer}>
+			{/* <View style={styles.searchBarContainer}>
 				<Searchbar placeholder='Search' onChangeText={onChangeSearch} value={searchQuery} style={styles.searchBar} />
-			</View>
+			</View> */}
 
 			{/* Existing QR Code, Profile, Settings Surfaces */}
 			<SurfaceIcons />
+			<SalesCounter />
 
 			{/* Categories Section */}
-			<Text style={styles.sectionTitle}>Categories</Text>
-			<Categories />
+			{/* <Text style={styles.sectionTitle}>Categories</Text>
+			<Categories /> */}
 
 			{/* Products Section */}
-			<Text style={styles.sectionTitle}>Popular Deals</Text>
-			<Products handleAddToCart={handleAddToCart} handleRemoveFromCart={handleRemoveFromCart} />
+			{/* <Text style={styles.sectionTitle}>Popular Deals</Text>
+			<Products handleAddToCart={handleAddToCart} handleRemoveFromCart={handleRemoveFromCart} /> */}
 		</ThemedScrollContainer>
 	);
 }

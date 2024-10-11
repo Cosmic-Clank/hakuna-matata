@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		justifyContent: "space-around",
 		paddingHorizontal: 20,
+		marginTop: 20,
 	},
 	surface: {
 		alignItems: "center",

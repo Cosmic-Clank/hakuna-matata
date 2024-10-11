@@ -43,14 +43,14 @@ const Settings = () => {
 				<Divider />
 				<List.Item title='Notifications' description='Enable or disable notifications' left={() => <List.Icon icon='bell' />} right={() => <Switch value={notificationsEnabled} onValueChange={toggleNotifications} />} />
 				<Divider />
-				<List.Item title='App Info' description='Learn more about the app' left={() => <List.Icon icon='information-outline' />} onPress={() => router.navigate("/")} />
+				<List.Item title='App Info' description='SEJJELAT Business Solutions L.L.C | Dubai | UAE' left={() => <List.Icon icon='information-outline' />} onPress={() => router.navigate("/")} />
 				<Divider />
 			</List.Section>
 
 			{/* Sign-out Section */}
-			<Button mode='contained' onPress={showSignOutDialog} style={styles.signOutButton}>
+			{/* <Button mode='contained' onPress={showSignOutDialog} style={styles.signOutButton}>
 				Sign Out
-			</Button>
+			</Button> */}
 
 			{/* Confirmation Dialog */}
 			<Portal>

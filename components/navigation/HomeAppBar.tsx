@@ -45,4 +45,5 @@ const styles = StyleSheet.create({
 
 const routes = {
 	qrcode: "QR Code",
+	home: "Hakuna Matata",
 };

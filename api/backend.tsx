@@ -15,7 +15,7 @@ type FormData = {
 	lname: string;
 	email: string;
 	mobileNumber: string;
-	birthdate: Date;
+	birthDate: Date;
 	gender: string;
 	nationality: string;
 	internationalCode: string;
@@ -51,6 +51,48 @@ export const healthCheck = async () => {
 		return response.data;
 	} catch (error) {
 		console.error(error);
-		return error;
+		throw error;
+	}
+};
+
+export const updateUserAllergies = async (id: string, allergies: string) => {
+	try {
+		const response = await axiosInstance.put(`/update-user-allergies/${id}`, { allergies });
+		return response.data;
+	} catch (error) {
+		console.error(error);
+		throw error;
+	}
+};
+
+export const updateUserBirthDate = async (id: string, birthDate: string) => {
+	console.log("Updating birthDate", birthDate);
+
+	try {
+		const response = await axiosInstance.put(`/update-user-birthdate/${id}`, { birthDate });
+		return response.data;
+	} catch (error) {
+		console.error(error);
+		throw error;
+	}
+};
+
+export const getSalesCounter = async (id: string) => {
+	try {
+		const response = await axiosInstance.get(`/get-sales-counter/${id}`);
+		return response.data;
+	} catch (error) {
+		console.error(error);
+		throw error;
+	}
+};
+
+export const updateProfile = async (id: string, data: any) => {
+	try {
+		const response = await axiosInstance.put(`/update-user-profile/${id}`, data);
+		return response.data;
+	} catch (error) {
+		console.error(error);
+		throw error;
 	}
 };
