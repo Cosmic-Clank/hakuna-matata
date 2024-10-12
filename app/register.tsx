@@ -64,6 +64,9 @@ const Register = () => {
 
 	const onSubmit: SubmitHandler<FormData> = async (data) => {
 		setIsLoading(true);
+		const utcBirthDate = new Date(Date.UTC(data.birthDate.getFullYear(), data.birthDate.getMonth(), data.birthDate.getDate()));
+		// Update the birthDate field in the data object
+		data.birthDate = utcBirthDate; // Store in ISO string format
 		const response = await registerUser(data);
 		if (response.statusCode === 201) {
 			setIsLoading(false);

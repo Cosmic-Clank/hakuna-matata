@@ -62,13 +62,19 @@ const EditProfile = () => {
 
 		setIsLoading(true);
 		if (session) {
-			const response = await updateProfile(session.id, data);
-			if (response.statusCode === 200) {
-				showSnackbar("Profile updated successfully");
-				signIn({ ...session, ...data, birthDate: data.birthDate.toISOString() });
-				router.replace("/");
-			} else {
-				showSnackbar("An error occurred while updating profile");
+			try {
+				const response = await updateProfile(session.id, data);
+				if (response.statusCode === 200) {
+					showSnackbar("Profile updated successfully");
+					signIn({ ...session, ...data, birthDate: data.birthDate.toISOString() });
+					router.replace("/");
+				} else {
+					showSnackbar("An error occurred while updating profile");
+				}
+			} catch (error) {
+				showSnackbar("An network error occurred while updating, please try again");
+			} finally {
+				setIsLoading(false);
 			}
 		}
 	};
@@ -115,7 +121,7 @@ const EditProfile = () => {
 			<Controller defaultValue={session?.allergy} name='allergy' control={control} render={({ field: { onChange, value } }) => <SelectDropdown label='Allergies (Leave empty for none)' options={ALLERGIES} value={value} onSelection={onChange} mode='outlined' multiEnable={true} />} rules={{}} />
 			{errors.allergy && <HelperText type='error'>{errors.allergy.message}</HelperText>}
 
-			<CustomButton text='Edit' onPress={handleSubmit(onSubmit)} style={{ width: "100%" }} />
+			<CustomButton text='Save' onPress={handleSubmit(onSubmit)} style={{ width: "100%" }} />
 			<ActivityIndicator animating={isLoading} hidesWhenStopped />
 		</ThemedScrollContainer>
 	);
