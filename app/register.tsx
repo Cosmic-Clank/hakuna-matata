@@ -121,25 +121,26 @@ const Register = () => {
 			/>
 			{errors.email && <HelperText type='error'>{errors.email.message}</HelperText>}
 
-			{/* Mobile Number Field */}
-			<Controller
-				name='mobileNumber'
-				control={control}
-				render={({ field: { onChange, onBlur, value } }) => <TextInput label='Mobile Number' placeholder='05XXXXXXXX' mode='outlined' onBlur={onBlur} onChangeText={onChange} value={value} error={!!errors.mobileNumber} style={styles.input} left={<TextInput.Icon icon='phone' />} />}
-				rules={{
-					required: { value: true, message: ERROR_MESSAGES.REQUIRED },
-					pattern: { message: ERROR_MESSAGES.PHONE_INVALID, value: REGEX.mobileNumber },
-				}}
-			/>
-			{errors.mobileNumber && <HelperText type='error'>{errors.mobileNumber.message}</HelperText>}
+			<View style={styles.row}>
+				{/* International Code Field */}
+				<Controller name='internationalCode' control={control} render={({ field: { onChange, value } }) => <SelectDropdown label='Code' options={INTERNATIONAL_CODES} style={styles.internationalCode} value={value} onSelection={onChange} />} rules={{ required: { value: true, message: ERROR_MESSAGES.REQUIRED } }} />
+
+				{/* Mobile Number Field */}
+				<Controller
+					name='mobileNumber'
+					control={control}
+					render={({ field: { onChange, onBlur, value } }) => <TextInput label='Mobile Number' placeholder='05XXXXXXXX' mode='outlined' onBlur={onBlur} onChangeText={onChange} value={value} error={!!errors.mobileNumber} style={styles.input} left={<TextInput.Icon icon='phone' />} />}
+					rules={{
+						required: { value: true, message: ERROR_MESSAGES.REQUIRED },
+						pattern: { message: ERROR_MESSAGES.PHONE_INVALID, value: REGEX.mobileNumber },
+					}}
+				/>
+			</View>
+			{(errors.internationalCode || errors.mobileNumber) && <HelperText type='error'>{errors.internationalCode?.message || errors.mobileNumber?.message}</HelperText>}
 
 			{/* Birthdate Field */}
 			<Controller name='birthDate' control={control} render={({ field: { onChange, onBlur, value } }) => <DatePickerInput locale='en' label='Birth Date' value={value} onBlur={onBlur} error={!!errors.birthDate} onChange={onChange} inputMode='start' mode='outlined' style={styles.input} />} rules={{ required: { value: true, message: ERROR_MESSAGES.REQUIRED } }} />
 			{errors.birthDate && <HelperText type='error'>{errors.birthDate.message}</HelperText>}
-
-			{/* International Code Field */}
-			<Controller name='internationalCode' control={control} render={({ field: { onChange, value } }) => <SelectDropdown label='Country Code' options={INTERNATIONAL_CODES} value={value} onSelection={onChange} />} rules={{ required: { value: true, message: ERROR_MESSAGES.REQUIRED } }} />
-			{errors.internationalCode && <HelperText type='error'>{errors.internationalCode.message}</HelperText>}
 
 			{/* Gender Field */}
 			<Controller name='gender' control={control} render={({ field: { onChange, value } }) => <SelectDropdown label='Gender' options={GENDERS} value={value} onSelection={onChange} />} rules={{ required: { value: true, message: ERROR_MESSAGES.REQUIRED } }} />
@@ -181,10 +182,19 @@ const styles = StyleSheet.create({
 		textAlign: "center",
 	},
 	input: {
+		flex: 3,
+		marginBottom: 16,
+	},
+	internationalCode: {
+		flex: 1,
 		marginBottom: 16,
 	},
 	messageText: {
 		textAlign: "center",
 		marginTop: 10,
+	},
+	row: {
+		flexDirection: "row",
+		gap: 5,
 	},
 });
