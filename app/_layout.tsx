@@ -28,7 +28,7 @@ export function RootLayout() {
 
 	useEffect(() => {
 		if (fontsLoaded) {
-			setTimeout(SplashScreen.hideAsync, 500);
+			setTimeout(SplashScreen.hideAsync, 2000);
 		}
 		if (fontsLoadedError) {
 			console.error("Error loading fonts", fontsLoadedError);

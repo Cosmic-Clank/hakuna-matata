@@ -30,7 +30,7 @@ type FormData = {
 const REGEX = {
 	name: /^[a-z ,.'-]+$/i,
 	email: /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
-	mobileNumber: /^05\d{8}$/i,
+	mobileNumber: /^(0?5\d{8})$/i,
 };
 
 const ERROR_MESSAGES = {
@@ -123,7 +123,7 @@ const Register = () => {
 
 			<View style={styles.row}>
 				{/* International Code Field */}
-				<Controller name='internationalCode' control={control} render={({ field: { onChange, value } }) => <SelectDropdown label='Code' options={INTERNATIONAL_CODES} style={styles.internationalCode} value={value} onSelection={onChange} />} rules={{ required: { value: true, message: ERROR_MESSAGES.REQUIRED } }} />
+				<Controller defaultValue='+971' name='internationalCode' control={control} render={({ field: { onChange, value } }) => <SelectDropdown label='Code' options={INTERNATIONAL_CODES} style={styles.internationalCode} value={value} onSelection={onChange} />} rules={{ required: { value: true, message: ERROR_MESSAGES.REQUIRED } }} />
 
 				{/* Mobile Number Field */}
 				<Controller
@@ -182,11 +182,11 @@ const styles = StyleSheet.create({
 		textAlign: "center",
 	},
 	input: {
-		flex: 3,
+		flex: 5,
 		marginBottom: 16,
 	},
 	internationalCode: {
-		flex: 1,
+		flex: 2,
 		marginBottom: 16,
 	},
 	messageText: {
