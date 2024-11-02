@@ -21,12 +21,13 @@ type FormData = {
 	birthDate: Date;
 	gender: string;
 	allergy: string;
+	mobileNumber: string;
 };
 
 const REGEX = {
 	name: /^[a-z ,.'-]+$/i,
 	email: /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
-	mobileNumber: /^05\d{8}$/i,
+	mobileNumber: /^(0?5\d{8})$/i,
 };
 
 const ERROR_MESSAGES = {
@@ -67,7 +68,7 @@ const EditProfile = () => {
 				if (response.statusCode === 200) {
 					showSnackbar("Profile updated successfully");
 					signIn({ ...session, ...data, birthDate: data.birthDate.toISOString() });
-					router.replace("/");
+					router.replace("/home/profile");
 				} else {
 					showSnackbar("An error occurred while updating profile");
 				}
@@ -118,8 +119,21 @@ const EditProfile = () => {
 			{errors.gender && <HelperText type='error'>{errors.gender.message}</HelperText>}
 
 			{/* Allergies Field */}
-			<Controller defaultValue={session?.allergy} name='allergy' control={control} render={({ field: { onChange, value } }) => <SelectDropdown label='Allergies (Leave empty for none)' options={ALLERGIES} value={value} onSelection={onChange} mode='outlined' multiEnable={true} />} rules={{}} />
+			<Controller defaultValue={session?.allergy} name='allergy' control={control} render={({ field: { onChange, value } }) => <SelectDropdown label='Allergies (Leave empty for none)' options={ALLERGIES} value={value} onSelection={onChange} mode='outlined' multiEnable={true} defaultValue={session?.allergy ? ALLERGIES.filter((allergy) => session.allergy.split(", ").includes(allergy.value)) : []} />} rules={{}} />
 			{errors.allergy && <HelperText type='error'>{errors.allergy.message}</HelperText>}
+
+			{/* Mobile Field */}
+			<Controller
+				name='mobileNumber'
+				defaultValue={session?.mobileNumber ? session.mobileNumber : ""}
+				control={control}
+				render={({ field: { onChange, onBlur, value } }) => <TextInput label='Mobile Number' mode='outlined' onBlur={onBlur} onChangeText={onChange} value={value} error={!!errors.mobileNumber} style={styles.input} left={<TextInput.Icon icon='phone' />} />}
+				rules={{
+					required: { value: true, message: ERROR_MESSAGES.REQUIRED },
+					pattern: { message: ERROR_MESSAGES.PHONE_INVALID, value: REGEX.mobileNumber },
+				}}
+			/>
+			{errors.mobileNumber && <HelperText type='error'>{errors.mobileNumber.message}</HelperText>}
 
 			<CustomButton text='Save' onPress={handleSubmit(onSubmit)} style={{ width: "100%" }} />
 			<ActivityIndicator animating={isLoading} hidesWhenStopped />

@@ -3,11 +3,11 @@ import React, { useState } from "react";
 import { PaperSelect } from "react-native-paper-select";
 import { useTheme } from "react-native-paper";
 
-const Dropdown = ({ label, onSelection, options, multiEnable = false, value, style, mode = "outlined" }: { label: string; onSelection: (value: string) => void; options: Array<{ _id: string; value: string }>; multiEnable?: boolean; value: any; style?: ViewStyle | undefined; mode?: "flat" | "outlined" | undefined }) => {
+const Dropdown = ({ label, onSelection, options, multiEnable = false, value, style, mode = "outlined", defaultValue = [] }: { label: string; onSelection: (value: string) => void; options: Array<{ _id: string; value: string }>; multiEnable?: boolean; value: any; style?: ViewStyle | undefined; mode?: "flat" | "outlined" | undefined; defaultValue?: Array<{ _id: string; value: string }> }) => {
 	const [item, setItem] = useState({
 		value: "",
 		list: options,
-		selectedList: [],
+		selectedList: defaultValue,
 	});
 
 	const theme = useTheme();
