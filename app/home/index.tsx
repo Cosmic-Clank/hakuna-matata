@@ -7,6 +7,7 @@ import SurfaceIcons from "@/components/SurfaceIcons";
 import SalesCounter from "@/components/SalesCounter";
 import Categories from "@/components/Categories";
 import Products from "@/components/Products";
+import ExitButton from "@/components/ExitButton";
 
 export default function HomeScreen() {
 	const theme = useTheme(); // Get the current theme colors
@@ -35,6 +36,7 @@ export default function HomeScreen() {
 			{/* Existing QR Code, Profile, Settings Surfaces */}
 			<SurfaceIcons />
 			<SalesCounter />
+			<ExitButton />
 
 			{/* Categories Section */}
 			{/* <Text style={styles.sectionTitle}>Categories</Text>
