@@ -14,7 +14,7 @@
 				"image": "latest"
 			},
 			"env": {
-				"EXPO_PUBLIC_BACKEND_BASEURL": "https://khz6n3f6-8000.inc1.devtunnels.ms/"
+				"EXPO_PUBLIC_BACKEND_BASEURL": "https://hakuna-matata-backend.vercel.app/"
 			}
 		},
 		"development-simulator": {
@@ -33,7 +33,7 @@
 				"image": "latest"
 			},
 			"env": {
-				"EXPO_PUBLIC_BACKEND_BASEURL": "https://khz6n3f6-8000.inc1.devtunnels.ms/"
+				"EXPO_PUBLIC_BACKEND_BASEURL": "https://hakuna-matata-backend.vercel.app/"
 			}
 		},
 		"production": {
@@ -46,7 +46,7 @@
 				"image": "latest"
 			},
 			"env": {
-				"EXPO_PUBLIC_BACKEND_BASEURL": "https://khz6n3f6-8000.inc1.devtunnels.ms/"
+				"EXPO_PUBLIC_BACKEND_BASEURL": "https://hakuna-matata-backend.vercel.app/"
 			}
 		}
 	},
