@@ -36,7 +36,7 @@ export default function HomeScreen() {
 			{/* Existing QR Code, Profile, Settings Surfaces */}
 			<SurfaceIcons />
 			<SalesCounter />
-			<ExitButton />
+			{/* <ExitButton /> */}
 
 			{/* Categories Section */}
 			{/* <Text style={styles.sectionTitle}>Categories</Text>
