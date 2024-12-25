@@ -48,9 +48,9 @@ const Settings = () => {
 			</List.Section>
 
 			{/* Sign-out Section */}
-			{/* <Button mode='contained' onPress={showSignOutDialog} style={styles.signOutButton}>
+			<Button mode='contained' onPress={showSignOutDialog} style={styles.signOutButton}>
 				Sign Out
-			</Button> */}
+			</Button>
 
 			{/* Confirmation Dialog */}
 			<Portal>
