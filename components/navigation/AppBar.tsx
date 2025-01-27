@@ -19,11 +19,13 @@ export default function PaperNavigationBar({ backable = true }: { backable?: boo
 	} else {
 		title = "Hakuna Matata";
 	}
+	title = "Hakuna Matata";
+
 	segments[segments.length - 1] ? toTitleCase(segments[segments.length - 1]) : "App"; // Fallback to 'App' if no segment
 	// console.log(segments);
 	return (
 		<Appbar.Header style={[styles.header, { backgroundColor: theme.colors.surface }]}>
-			{backable && segments.length >= 1 ? <Appbar.BackAction onPress={() => router.back()} /> : null}
+			{backable && segments.length >= 2 ? <Appbar.BackAction onPress={() => router.back()} /> : null}
 			<Appbar.Content title={title} titleStyle={[styles.title, { color: theme.colors.primary }]} />
 		</Appbar.Header>
 	);

@@ -7,21 +7,11 @@ import ThemedContainer from "@/components/ThemedContainer";
 export default function QR() {
 	const { session } = useSession();
 
-	// Format the date
-	const formattedDate = new Intl.DateTimeFormat("en-US", {
-		year: "numeric",
-		month: "short",
-		day: "numeric",
-		hour: "2-digit",
-		minute: "2-digit",
-	}).format(new Date());
-
 	const data = {
-		id: session?.id,
-		fname: session?.fname,
-		lname: session?.lname,
-		email: session?.email,
-		CODE_GENERATION_TIME: formattedDate, // Use the formatted date
+		id: session?.CUST_CODE,
+		fname: session?.CUST_FNAME,
+		lname: session?.CUST_LNAME,
+		email: session?.CUST_EMAIL,
 	};
 
 	return (
@@ -35,8 +25,6 @@ export default function QR() {
 					Name: {data.fname} {data.lname}
 				</Text>
 				<Text style={styles.infoText}>Email: {data.email}</Text>
-				<Text style={styles.infoText}>ID: {data.id}</Text>
-				<Text style={styles.infoText}>Date: {data.CODE_GENERATION_TIME}</Text>
 			</View>
 		</ThemedContainer>
 	);

@@ -3,7 +3,6 @@ import React from "react";
 import { Divider } from "react-native-paper";
 import { router, Redirect } from "expo-router";
 import { useSession } from "@/context/AuthContext";
-import { useSnackbar } from "@/context/SnackbarContext";
 import { useTheme } from "react-native-paper";
 import CustomButton from "@/components/CustomButton";
 import ThemedContainer from "@/components/ThemedContainer";
@@ -30,16 +29,16 @@ const Authentication = () => {
 	return (
 		<ThemedContainer style={styles.container}>
 			{/* App Logo */}
-			{isDarkTheme ? <Image source={require("../assets/images/logo-white.png")} style={styles.logo} /> : <Image source={require("../assets/images/logo-sticker.png")} style={styles.logo} />}
+			{isDarkTheme ? <Image source={require("../../assets/images/logo-white.png")} style={styles.logo} /> : <Image source={require("../../assets/images/logo-sticker.png")} style={styles.logo} />}
 
 			{/* Log In Button */}
-			<CustomButton text='Log In' onPress={() => router.push("/login")} />
+			<CustomButton text='Log In' onPress={() => router.push("/(auth)/signin")} />
 
 			{/* Divider */}
 			<Divider style={styles.divider} />
 
 			{/* Register Button */}
-			<CustomButton text='Register' isOutlined onPress={() => router.push("/register")} />
+			<CustomButton text='Register' isOutlined onPress={() => router.push("/(auth)/signup")} />
 
 			{/* Forgot Password Button */}
 

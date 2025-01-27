@@ -7,6 +7,7 @@ import PaperNavigationBar from "@/components/navigation/AppBar";
 import { SnackbarProvider } from "@/context/SnackbarContext";
 import { ThemeProvider, useThemeContext } from "@/context/ThemeContext";
 import { View, Text, StyleSheet, Image } from "react-native";
+import React from "react";
 
 // Custom splash screen component
 function CustomSplashScreen() {
@@ -60,10 +61,8 @@ export function RootLayout() {
 						screenOptions={{
 							header: () => <PaperNavigationBar />,
 						}}>
+						<Stack.Screen name='(auth)' options={{ headerShown: true }} />
 						<Stack.Screen name='home' options={{ headerShown: false }} />
-						<Stack.Screen name='index' />
-						<Stack.Screen name='register' />
-						<Stack.Screen name='login' />
 					</Stack>
 				</SnackbarProvider>
 			</PaperProvider>

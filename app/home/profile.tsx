@@ -1,124 +1,111 @@
 import { StyleSheet, View } from "react-native";
 import React, { useState } from "react";
-import { Avatar, List, Divider, useTheme, Text, IconButton, ActivityIndicator } from "react-native-paper";
-import { useSession } from "@/context/AuthContext"; // Assuming you get user data from session
-import NATIONALITIES from "@/data/nationalities.json"; // Import list of nationalities
+import { Avatar, List, Divider, useTheme, Text, IconButton, Card } from "react-native-paper";
+import { useSession } from "@/context/AuthContext";
+import NATIONALITIES from "@/data/nationalities.json";
 import ThemedScrollContainer from "@/components/ThemedScrollContainer";
-import CustomButton from "@/components/CustomButton";
-import { updateUserAllergies, updateUserBirthDate } from "@/api/backend";
+import EditDialog from "@/components/EditDialog";
+import { updateProfile } from "@/api/backend";
 import { useSnackbar } from "@/context/SnackbarContext";
-import { router } from "expo-router";
+import { Link } from "expo-router";
 
 const Profile = () => {
-	const { session, isLoading, signIn } = useSession(); // Fetch user data and loading state
-	const theme = useTheme(); // Access theme colors
-	const { showSnackbar } = useSnackbar(); // Access snackbar context
-	const [madeChanges, setMadeChanges] = React.useState(false); // State to track changes
-	const [birthDate, setBirthDate] = useState(session?.birthDate ? new Date(session.birthDate) : new Date()); // State to store date
-	const [allergies, setAllergies] = useState(session?.allergy || ""); // State to store allergies
-	const [nationality, setNationality] = useState(session?.nationality || ""); // State to store
-	const [showActivityIndicator, setShowActivityIndicator] = useState(false); // State to show activity indicator
+	const { session, signIn } = useSession();
+	const theme = useTheme();
 
-	// Show loading spinner if session is still loading
-	if (isLoading) {
-		return (
-			<View style={styles.loadingContainer}>
-				<ActivityIndicator size='large' color={theme.colors.primary} />
-				<Text>Loading profile...</Text>
-			</View>
-		);
-	}
+	const [dialogVisible, setDialogVisible] = useState(false);
+	const [selectedField, setSelectedField] = useState("");
+	const [selectedKey, setSelectedKey] = useState("");
+	const [selectedValue, setSelectedValue] = useState("");
+	const { showSnackbar } = useSnackbar(); // Use the snackbar from context
 
-	// Fallback if session is not available
-	if (!session) {
-		return (
-			<View style={styles.loadingContainer}>
-				<Text>No user data available</Text>
-			</View>
-		);
-	}
-
-	const edit = () => {
-		router.navigate("/edit");
+	// Handle edit button press
+	const handleEdit = (field: string, key: string, value: any) => {
+		setSelectedField(field);
+		setSelectedKey(key);
+		setSelectedValue(value);
+		setDialogVisible(true);
 	};
 
-	const saveChanges = async () => {
-		// Implement your save changes logic here
-		setShowActivityIndicator(true);
-		try {
-			// Call API to update user allergies
-			await updateUserAllergies(session.id, allergies);
-			signIn({ ...session, allergy: allergies });
-			showSnackbar("Changes saved successfully");
-			setMadeChanges(false);
-		} catch (error) {
-			console.error(error);
-			showSnackbar("An error occurred while saving allergies");
+	// Utility function to check if a field is null
+	const isEditable = (value: any) => value === null || value === "";
+
+	const getLocalDateFormatted = (dateString: string | undefined) => {
+		const date = new Date(dateString || "");
+
+		const options: Intl.DateTimeFormatOptions = {
+			timeZone: "Asia/Dubai", // Adjust for desired timezone (UTC+4)
+			year: "numeric",
+			month: "2-digit",
+			day: "2-digit",
+		};
+
+		const localDate = date.toLocaleDateString("en-CA", options); // en-CA gives yyyy-mm-dd format
+		return localDate;
+	};
+
+	const onSave = async (newValue: string) => {
+		if (selectedKey === "CUST_BIRTHDATE") {
+			newValue = getLocalDateFormatted(newValue);
 		}
-		try {
-			const dateString = birthDate.toLocaleDateString();
-			const [month, day, year] = dateString.split("/"); // Split the string into month, day, and year
-			const dateObject = new Date(Number(year), Number(month) - 1, Number(day));
-			await updateUserBirthDate(session.id, dateObject.toISOString());
-			signIn({ ...session, birthDate: dateObject.toISOString() });
-			showSnackbar("Changes saved successfully");
-			setMadeChanges(false);
-		} catch (error) {
-			console.error(error);
-			showSnackbar("An error occurred while saving Birthdate");
+		const response = await updateProfile(session.CUST_CODE, { selectedKey, newValue });
+		if (response.statusCode === 200) {
+			// Update the session data
+			const updatedSession = { ...session, [selectedKey]: newValue };
+			signIn(updatedSession);
+			showSnackbar("Profile Updated Successfully");
+		} else {
+			showSnackbar("Failed to update profile");
 		}
-		setShowActivityIndicator(false);
-	};
-	// Function to handle edit actions
-	const handleNationalityChange = (value: string) => {
-		setMadeChanges(true);
-		setNationality(value);
-		console.log("Nationality changed to", value);
-	};
-
-	const handleAllergyChange = (value: string) => {
-		setMadeChanges(true);
-		setAllergies(value);
-		console.log("Allergy changed to", value);
-	};
-
-	const handleDateChange = (date: Date | undefined) => {
-		setMadeChanges(true);
-		setBirthDate(date || new Date());
-		console.log("Date changed to", date);
 	};
 
 	return (
-		<ThemedScrollContainer style={styles.container}>
-			{/* Avatar */}
-			<View style={styles.avatarContainer}>
-				<Avatar.Icon size={80} icon='account' />
-				<Text style={styles.name}>
-					{session.fname} {session.lname}
-				</Text>
-			</View>
+		<>
+			<ThemedScrollContainer style={styles.container}>
+				{/* Avatar and User Info */}
+				<View style={styles.avatarContainer}>
+					<Avatar.Icon size={80} icon='account' />
+					<Text style={styles.name}>
+						{session?.CUST_FNAME} {session?.CUST_LNAME}
+					</Text>
+				</View>
 
-			{/* User Information */}
-			<Divider style={styles.divider} />
-			<List.Section>
-				<List.Item title='Email' description={session.email} left={() => <List.Icon icon='email' />} />
-				<Divider />
-				<List.Item title='Mobile Number' description={session.mobileNumber} left={() => <List.Icon icon='phone' />} />
-				<Divider />
-				<List.Item title='Nationality' description={NATIONALITIES.filter((item) => item._id === session.nationality)[0]?.value} left={() => <List.Icon icon='earth' />} />
-				<Divider />
-				<List.Item title='Allergies' description={session.allergy} left={() => <List.Icon icon='allergy' />} />
-				<Divider />
-				<List.Item title='Gender' description={session.gender} left={() => <List.Icon icon='account' />} />
-				<Divider />
-				<List.Item title='Birthdate' description={new Date(session.birthDate).toDateString()} left={() => <List.Icon icon='cake' />} />
-				{/* <SelectDropdown label='Allergies (Leave empty for none)' options={ALLERGIES} value={allergies} onSelection={handleAllergyChange} mode='outlined' multiEnable={true} />
-				<Divider />
-				{/* {<Text>{JSON.stringify(session)}</Text>} */}
-				<Divider />
-			</List.Section>
-			<CustomButton style={styles.button} text='Edit' onPress={edit} />
-		</ThemedScrollContainer>
+				{/* User Information Section */}
+				<Divider style={styles.divider} />
+				<List.Section>
+					<List.Item title='Mobile Number' description={session?.CUST_MobileNo || "Not Provided"} left={() => <List.Icon icon='phone' />} right={() => isEditable(session?.CUST_MobileNo) && <IconButton icon='pencil' onPress={() => handleEdit("Mobile Number", "CUST_MobileNo", session?.CUST_MobileNo)} />} />
+					<Divider />
+
+					<List.Item title='Nationality' description={session?.CUST_NATIONALITY || "Not Provided"} left={() => <List.Icon icon='earth' />} right={() => isEditable(session?.CUST_NATIONALITY) && <IconButton icon='pencil' onPress={() => handleEdit("Nationality", "CUST_NATIONALITY", session?.CUST_NATIONALITY)} />} />
+					<Divider />
+
+					<List.Item title='Allergies' description={session?.CUST_ALERGY || "None"} left={() => <List.Icon icon='allergy' />} right={() => isEditable(session?.CUST_ALERGY) && <IconButton icon='pencil' onPress={() => handleEdit("Allergies", "CUST_ALERGY", session?.CUST_ALERGY)} />} />
+					<Divider />
+
+					<List.Item title='Gender' description={session?.CUST_GENDER || "Not Provided"} left={() => <List.Icon icon='account' />} right={() => isEditable(session?.CUST_GENDER) && <IconButton icon='pencil' onPress={() => handleEdit("Gender", "CUST_GENDER", session?.CUST_GENDER)} />} />
+					<Divider />
+
+					<List.Item title='Birthdate' description={session?.CUST_BIRTHDATE ? new Date(session.CUST_BIRTHDATE).toDateString() : "Not Provided"} left={() => <List.Icon icon='cake' />} right={() => isEditable(session?.CUST_BIRTHDATE) && <IconButton icon='pencil' onPress={() => handleEdit("Birthdate", "CUST_BIRTHDATE", session?.CUST_BIRTHDATE)} />} />
+					<Divider />
+				</List.Section>
+
+				{/* Info Box - Cannot Edit After Submission */}
+				<Card style={styles.infoCard}>
+					<Card.Content>
+						<Text style={styles.infoText}>
+							⚠️ Please note that once the data is submitted, it cannot be edited. Ensure all information is correct before saving. If you would like to delete your data, please erase data from settings. For more information contact us{" "}
+							<Link href='https://sejjelat.com/Home/Contact' style={{ textDecorationLine: "underline", fontWeight: "bold" }}>
+								HERE
+							</Link>
+							.
+						</Text>
+					</Card.Content>
+				</Card>
+			</ThemedScrollContainer>
+
+			{/* Edit Dialog */}
+			<EditDialog visible={dialogVisible} onDismiss={() => setDialogVisible(false)} fieldName={selectedField} fieldKey={selectedKey} currentValue={selectedValue} onSave={onSave} />
+		</>
 	);
 };
 
@@ -128,17 +115,11 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 	},
-	loadingContainer: {
-		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
-	},
 	avatarContainer: {
 		justifyContent: "center",
 		alignItems: "center",
 		marginBottom: 20,
 	},
-
 	name: {
 		fontSize: 24,
 		fontWeight: "bold",
@@ -147,8 +128,16 @@ const styles = StyleSheet.create({
 	divider: {
 		marginVertical: 10,
 	},
-	button: {
-		width: "100%",
+	infoCard: {
 		marginTop: 20,
+		marginHorizontal: 16,
+		backgroundColor: "#fff8e1", // Light yellow for attention
+		borderRadius: 8,
+		elevation: 2,
+	},
+	infoText: {
+		fontSize: 14,
+		color: "#d84315", // Orange-red to signify caution
+		textAlign: "center",
 	},
 });

@@ -6,6 +6,7 @@ import { useSession } from "@/context/AuthContext";
 import { useTheme } from "react-native-paper";
 import ThemedScrollContainer from "@/components/ThemedScrollContainer";
 import { useThemeContext } from "@/context/ThemeContext";
+import DeleteDataButton from "@/components/DeleteDataButton";
 
 const Settings = () => {
 	const { session, signOut } = useSession();
@@ -29,7 +30,7 @@ const Settings = () => {
 			{/* Profile Section */}
 			<Surface style={styles.profileSection}>
 				<Avatar.Icon size={80} icon='account' />
-				<Text style={styles.profileText}>Hello, {session?.fname || "User"}</Text>
+				<Text style={styles.profileText}>Hello, {session?.CUST_FNAME || "User"}</Text>
 				<Button mode='outlined' onPress={() => router.navigate("/home/profile")} style={styles.profileButton}>
 					View Profile
 				</Button>
@@ -43,7 +44,7 @@ const Settings = () => {
 				<Divider />
 				<List.Item title='Notifications' description='Enable or disable notifications' left={() => <List.Icon icon='bell' />} right={() => <Switch value={notificationsEnabled} onValueChange={toggleNotifications} />} />
 				<Divider />
-				<List.Item title='App Info' description='SEJJELAT Business Solutions L.L.C | Dubai | UAE' left={() => <List.Icon icon='information-outline' />} onPress={() => router.navigate("/")} />
+				<List.Item title='App Info' description='SEJJELAT Business Solutions L.L.C | Dubai | UAE' left={() => <List.Icon icon='information-outline' />} />
 				<Divider />
 			</List.Section>
 
@@ -51,6 +52,7 @@ const Settings = () => {
 			<Button mode='contained' onPress={showSignOutDialog} style={styles.signOutButton}>
 				Sign Out
 			</Button>
+			<DeleteDataButton />
 
 			{/* Confirmation Dialog */}
 			<Portal>
@@ -94,6 +96,6 @@ const styles = StyleSheet.create({
 	},
 	signOutButton: {
 		marginTop: 16,
-		backgroundColor: "#d9534f", // A nice red for sign-out
+		backgroundColor: "#c82333", // A nice red for sign-out
 	},
 });

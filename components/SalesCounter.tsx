@@ -1,27 +1,37 @@
 import { StyleSheet, View } from "react-native";
-import React, { useEffect, useState } from "react";
-import { getSalesCounter } from "@/api/backend";
+import React, { useCallback, useEffect, useState } from "react";
+import { getUserDataByCode } from "@/api/backend";
 import { useSession } from "@/context/AuthContext";
 import { Surface, Text, useTheme } from "react-native-paper";
+import { useFocusEffect } from "expo-router";
 
 const SalesCounter = () => {
 	const [sales, setSales] = useState(0);
-	const { session } = useSession();
+	const { session, signIn } = useSession();
 	const theme = useTheme();
 
-	useEffect(() => {
-		const fetchSalesData = async () => {
-			try {
-				const salesCount = await getSalesCounter(session?.id ?? "");
-				setSales(salesCount.counter);
-			} catch (error) {
-				console.error("Error fetching sales data:", error);
-				setSales(0); // Display 0 in case of error
+	const fetchSalesData = async () => {
+		try {
+			const response = await getUserDataByCode(session.CUST_CODE);
+			if (response.statusCode === 200) {
+				const userData = response.userData;
+				console.log("Fetched User Data:", userData);
+				setSales(userData.CUST_COUNTER);
+				signIn({ ...userData });
+			} else {
+				console.error("Error fetching sales data:", "Network Error");
+				setSales(session.CUST_COUNTER); // Display 0 in case of error
 			}
-		};
-
-		fetchSalesData();
-	}, []);
+		} catch (error) {
+			console.error("Error fetching sales data:", error);
+			setSales(session.CUST_COUNTER); // Display 0 in case of error
+		}
+	};
+	useFocusEffect(
+		useCallback(() => {
+			fetchSalesData();
+		}, [])
+	);
 
 	return (
 		<View style={styles.container}>
