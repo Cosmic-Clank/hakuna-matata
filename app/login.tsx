@@ -11,18 +11,16 @@ import ThemedScrollContainer from "@/components/ThemedScrollContainer";
 
 type FormData = {
 	email: string;
-	mobileNumber: string;
+	password: string;
 };
 
 const REGEX = {
 	email: /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
-	mobileNumber: /^05\d{8}$/i,
 };
 
 const ERROR_MESSAGES = {
 	REQUIRED: "This Field Is Required",
 	EMAIL_INVALID: "Not a Valid Email",
-	PHONE_INVALID: "Not a Valid UAE Phone Number",
 };
 
 const Login = () => {
@@ -70,17 +68,16 @@ const Login = () => {
 				/>
 				{errors.email && <HelperText type='error'>{errors.email.message}</HelperText>}
 
-				{/* Mobile Number Field */}
+				{/* Password Field */}
 				<Controller
-					name='mobileNumber'
+					name='password'
 					control={control}
-					render={({ field: { onChange, onBlur, value } }) => <TextInput label='Mobile Number' placeholder='05XXXXXXXX' mode='outlined' onBlur={onBlur} onChangeText={onChange} value={value} error={!!errors.mobileNumber} style={styles.input} left={<TextInput.Icon icon='phone' />} />}
+					render={({ field: { onChange, onBlur, value } }) => <TextInput label='Password' mode='outlined' onBlur={onBlur} onChangeText={onChange} value={value} error={!!errors.password} style={styles.input} left={<TextInput.Icon icon='lock' />} secureTextEntry />}
 					rules={{
 						required: { value: true, message: ERROR_MESSAGES.REQUIRED },
-						pattern: { message: ERROR_MESSAGES.PHONE_INVALID, value: REGEX.mobileNumber },
 					}}
 				/>
-				{errors.mobileNumber && <HelperText type='error'>{errors.mobileNumber.message}</HelperText>}
+				{errors.password && <HelperText type='error'>{errors.password.message}</HelperText>}
 
 				<CustomButton text='Login' onPress={handleSubmit(onSubmit)} style={{ width: "100%" }} />
 				<ActivityIndicator animating={isLoading} hidesWhenStopped />
