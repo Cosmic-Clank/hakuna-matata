@@ -14,7 +14,7 @@
 				"image": "latest"
 			},
 			"env": {
-				"EXPO_PUBLIC_BACKEND_BASEURL": "https://app-api.hakunamatata-me.com/api/user/"
+				"EXPO_PUBLIC_BACKEND_BASEURL": "https://app-api.hakunamatata-me.com/api/User/"
 			}
 		},
 		"development-simulator": {
@@ -33,7 +33,7 @@
 				"image": "latest"
 			},
 			"env": {
-				"EXPO_PUBLIC_BACKEND_BASEURL": "https://app-api.hakunamatata-me.com/api/user/"
+				"EXPO_PUBLIC_BACKEND_BASEURL": "https://app-api.hakunamatata-me.com/api/User/"
 			}
 		},
 		"production": {
@@ -46,7 +46,7 @@
 				"image": "latest"
 			},
 			"env": {
-				"EXPO_PUBLIC_BACKEND_BASEURL": "https://app-api.hakunamatata-me.com/api/user/"
+				"EXPO_PUBLIC_BACKEND_BASEURL": "https://app-api.hakunamatata-me.com/api/User/"
 			}
 		}
 	},
