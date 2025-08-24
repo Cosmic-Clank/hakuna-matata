@@ -30,7 +30,7 @@
 				"image": "latest"
 			},
 			"ios": {
-				"image": "latest"
+				"image": "macos-sonoma-14.6-xcode-16.0"
 			},
 			"env": {
 				"EXPO_PUBLIC_BACKEND_BASEURL": "https://app-api.hakunamatata-me.com/api/User/"
@@ -43,7 +43,7 @@
 				"image": "latest"
 			},
 			"ios": {
-				"image": "latest"
+				"image": "macos-sonoma-14.6-xcode-16.0"
 			},
 			"env": {
 				"EXPO_PUBLIC_BACKEND_BASEURL": "https://app-api.hakunamatata-me.com/api/User/"
