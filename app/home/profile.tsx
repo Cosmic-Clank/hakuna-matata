@@ -1,8 +1,7 @@
 import { StyleSheet, View } from "react-native";
 import React, { useState } from "react";
-import { Avatar, List, Divider, useTheme, Text, IconButton, Card } from "react-native-paper";
+import { Avatar, List, Divider, Text, IconButton, Card } from "react-native-paper";
 import { useSession } from "@/context/AuthContext";
-import NATIONALITIES from "@/data/nationalities.json";
 import ThemedScrollContainer from "@/components/ThemedScrollContainer";
 import EditDialog from "@/components/EditDialog";
 import { updateProfile } from "@/api/backend";
@@ -11,7 +10,6 @@ import { Link } from "expo-router";
 
 const Profile = () => {
 	const { session, signIn } = useSession();
-	const theme = useTheme();
 
 	const [dialogVisible, setDialogVisible] = useState(false);
 	const [selectedField, setSelectedField] = useState("");
@@ -79,7 +77,7 @@ const Profile = () => {
 					<List.Item title='Nationality' description={session?.CUST_NATIONALITY || "Not Provided"} left={() => <List.Icon icon='earth' />} right={() => isEditable(session?.CUST_NATIONALITY) && <IconButton icon='pencil' onPress={() => handleEdit("Nationality", "CUST_NATIONALITY", session?.CUST_NATIONALITY)} />} />
 					<Divider />
 
-					<List.Item title='Allergies' description={session?.CUST_ALERGY || "None"} left={() => <List.Icon icon='allergy' />} right={() => isEditable(session?.CUST_ALERGY) && <IconButton icon='pencil' onPress={() => handleEdit("Allergies", "CUST_ALERGY", session?.CUST_ALERGY)} />} />
+					<List.Item title='Allergies' description={session?.CUST_ALERGY || "None"} left={() => <List.Icon icon='pill' />} right={() => isEditable(session?.CUST_ALERGY) && <IconButton icon='pencil' onPress={() => handleEdit("Allergies", "CUST_ALERGY", session?.CUST_ALERGY)} />} />
 					<Divider />
 
 					<List.Item title='Gender' description={session?.CUST_GENDER || "Not Provided"} left={() => <List.Icon icon='account' />} right={() => isEditable(session?.CUST_GENDER) && <IconButton icon='pencil' onPress={() => handleEdit("Gender", "CUST_GENDER", session?.CUST_GENDER)} />} />
@@ -92,13 +90,7 @@ const Profile = () => {
 				{/* Info Box - Cannot Edit After Submission */}
 				<Card style={styles.infoCard}>
 					<Card.Content>
-						<Text style={styles.infoText}>
-							⚠️ Please note that once the data is submitted, it cannot be edited. Ensure all information is correct before saving. If you would like to delete your data, please erase data from settings. For more information contact us{" "}
-							<Link href='https://sejjelat.com/Home/Contact' style={{ textDecorationLine: "underline", fontWeight: "bold" }}>
-								HERE
-							</Link>
-							.
-						</Text>
+						<Text style={styles.infoText}>⚠️ Please note that once the data is submitted, it cannot be edited. Ensure all information is correct before saving. If you would like to delete your data, please erase data from settings. For more information contact us on https://sejjelat.com/Home/Contact.</Text>
 					</Card.Content>
 				</Card>
 			</ThemedScrollContainer>
