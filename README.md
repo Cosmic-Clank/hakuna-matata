@@ -2,7 +2,7 @@
 
 ![App Logo](./assets/images/logo-sticker.png) <!-- Optionally, add your app's logo or a relevant image -->
 
-**Hakuna Matata** is a modern mobile application built using **React Native** and **Expo**, designed with scalability, responsiveness, and performance in mind. The app supports **light and dark modes**, **user authentication**. The architecture follows best practices with **Context API** for state management and **React Native Paper** for material design UI components.
+**Hakuna Matata** is a modern mobile application built using **React Native** and **Expo**, designed with scalability, responsiveness, and performance in mind. The app supports **light and dark modes** and **user authentication**. The architecture follows best practices with **Context API** for state management and **React Native Paper** for material design UI components.
 
 ---
 
@@ -13,8 +13,7 @@
 -   [Installation](#installation)
 -   [Getting Started](#getting-started)
     -   [Set Up Backend Services](#1-set-up-backend-services)
-        -   [FastAPI Backend](#fastapi-backend)
-        -   [MSSQL Database](#mssql-database)
+        -   [.NET Backend](#net-backend)
     -   [Running the App](#2-running-the-app)
     -   [Building the App](#3-building-the-app)
     -   [Troubleshooting](#4-troubleshooting)
@@ -50,52 +49,20 @@ Ensure you have the following tools installed before running the app:
 
 ### **1. Set Up Backend Services**
 
-#### **FastAPI Backend**
+#### **.NET Backend**
 
-The backend is built using **FastAPI**. You can find the backend code here:
+The backend is built using **.NET** and hosted by the company. You can find the backend source code here:
 
-[FastAPI Backend Repository](https://github.com/Cosmic-Clank/hakuna-matata-backend)
+[.NET Backend Repository](https://github.com/Cosmic-Clank/hakuna-matata-dotnet)
 
-A running backend server is required for all online functionalities of the app. The backend is temporarily hosted on `https://khz6n3f6-8000.inc1.devtunnels.ms/`.
-
-To run the FastAPI backend locally:
-
-1. Clone the backend repository:
-
-    ```bash
-    git clone https://github.com/your-username/hakuna-matata-backend.git
-    cd hakuna-matata-backend
-    ```
-
-2. Install dependencies (ensure Python and pip are installed):
-
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-3. Start the FastAPI server:
-
-    ```bash
-    fastapi dev main.py
-    ```
-
-Make sure the FastAPI server is running at `http://localhost:8000`.
-
-#### **MSSQL Database**
-
-The app requires a **MSSQL** server. Follow these steps to setup a local server:
-
-1. Install and set up **Microsoft SQL Server** locally. You can download it from [SQL Server Downloads](https://www.microsoft.com/en-us/sql-server/sql-server-downloads).
-
-2. Update the connection string in the FastAPI backend’s configuration (in the `.env` file).
-
-3. Set up the required tables and databases.
+-   You don’t need to run the backend locally unless you’re contributing to backend development.
+-   The mobile app connects directly to the company-hosted backend environment, so once you configure your environment variables, the app will be ready to go.
 
 ---
 
 ### **2. Running the App**
 
-Once the **FastAPI** backend and **MSSQL** database are running, start the Expo development server:
+Start the Expo development server:
 
 ```bash
 expo start
@@ -150,11 +117,11 @@ Once the build is complete, you will receive a link to download the APK or IPA f
 
 ### **4. Troubleshooting**
 
--   **Backend issues**: Ensure both the FastAPI server and MSSQL database are running before starting the app.
+-   **Backend issues**: Ensure that your environment variables point to the correct company-hosted backend endpoint.
 -   **Metro Bundler issues**: If you encounter bundler issues, restart the bundler:
 
     ```bash
     expo start --clear
     ```
 
--   **API connection issues**: If you're testing the app on a physical device, ensure that the FastAPI server's URL is accessible from your device. Replace `localhost` with your computer's IP address if necessary.
+-   **API connection issues**: If you’re testing on a physical device, make sure the backend’s URL is accessible from your device.
