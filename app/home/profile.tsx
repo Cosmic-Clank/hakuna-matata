@@ -1,12 +1,11 @@
 import { StyleSheet, View } from "react-native";
 import React, { useState } from "react";
-import { Avatar, List, Divider, Text, IconButton, Card } from "react-native-paper";
+import { Avatar, List, Divider, Text, IconButton } from "react-native-paper";
 import { useSession } from "@/context/AuthContext";
 import ThemedScrollContainer from "@/components/ThemedScrollContainer";
 import EditDialog from "@/components/EditDialog";
 import { updateProfile } from "@/api/backend";
 import { useSnackbar } from "@/context/SnackbarContext";
-import { Link } from "expo-router";
 
 const Profile = () => {
 	const { session, signIn } = useSession();
@@ -86,13 +85,6 @@ const Profile = () => {
 					<List.Item title='Birthdate' description={session?.CUST_BIRTHDATE ? new Date(session.CUST_BIRTHDATE).toDateString() : "Not Provided"} left={() => <List.Icon icon='cake' />} right={() => isEditable(session?.CUST_BIRTHDATE) && <IconButton icon='pencil' onPress={() => handleEdit("Birthdate", "CUST_BIRTHDATE", session?.CUST_BIRTHDATE)} />} />
 					<Divider />
 				</List.Section>
-
-				{/* Info Box - Cannot Edit After Submission */}
-				<Card style={styles.infoCard}>
-					<Card.Content>
-						<Text style={styles.infoText}>⚠️ Please note that once the data is submitted, it cannot be edited. Ensure all information is correct before saving. If you would like to delete your data, please erase data from settings. For more information contact us on https://sejjelat.com/Home/Contact.</Text>
-					</Card.Content>
-				</Card>
 			</ThemedScrollContainer>
 
 			{/* Edit Dialog */}
